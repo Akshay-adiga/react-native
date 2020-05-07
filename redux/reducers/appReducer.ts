@@ -1,16 +1,20 @@
+import CONSTS from '../../constants/consts'
+
 interface IntialState {
-    values: Array<any>
+    posts: any
 }
 
 const intialState: IntialState = {
-    values: []
+    posts: []
 }
 
 
 export const appReducer = (state: IntialState = intialState, action: any): IntialState => {
     switch (action.type) {
-        case '': {
-            return state;
+        case CONSTS.GET_POSTS: {
+
+            const postVals = [...state.posts, ...action.posts]
+            return { ...state, posts: postVals };
         }
         default:
             return state;
