@@ -11,35 +11,36 @@ export const HomeScreen = (props: any) => {
     const dispatch = useDispatch();
     const [page, setpage] = useState(1)
     const [loading, setloading] = useState(false);
-    const [isRefresh, setisRefresh] = useState(false)
+    const posts: any = useSelector((state: any) => state.app.posts)
+
     useEffect(() => {
-        setloading(true)
-        dispatch(getPosts(page))
-        setloading(false)
+        getNewPosts(page)
     }, [dispatch, page]);
 
     useEffect(() => {
         const inteval = setInterval(async () => {
-            setisRefresh(true)
-            dispatch(getPosts(1))
-            setisRefresh(false)
+            setpage(page + 1)
         }, 10000)
         return () => {
             clearInterval(inteval);
         }
-    }, [])
+    }, [page])
+
+
+    const getNewPosts = (pageNum: number) => {
+        setloading(true)
+        dispatch(getPosts(pageNum))
+        setloading(false)
+    }
 
     const navigateToDetails = (selectedPost: any) => {
         props.navigation.navigate('Details', {
             selectedPost: selectedPost
         });
     }
-
-    const posts: any = useSelector((state: any) => state.app.posts)
     return (
-
         <View testID="home-wrapper" style={styles.screen}>
-            {isRefresh ? <ActivityIndicator size="large" color="blue" /> : <FlatList
+            <FlatList
                 data={posts}
                 keyExtractor={(item: any) => item.key}
                 renderItem={itemData => (
@@ -61,12 +62,11 @@ export const HomeScreen = (props: any) => {
                     </TouchableOpacity>
                 )}
                 onEndReached={() => {
-                    setloading(true)
                     setpage(page + 1)
                 }}
                 onEndReachedThreshold={.5}
                 numColumns={1}
-            />}
+            />
             {loading && <ActivityIndicator size="large" color="blue" />}
         </View>
     );
@@ -82,9 +82,9 @@ const styles = StyleSheet.create({
         width: "100%",
         backgroundColor: "black",
         paddingVertical: 10,
-        paddingHorizontal:15,
+        paddingHorizontal: 15,
         margin: 5,
-        borderRadius:10
+        borderRadius: 10
     },
     text: {
         color: 'white',
