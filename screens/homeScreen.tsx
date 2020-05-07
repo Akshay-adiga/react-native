@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from 'react-native';
 
 export const HomeScreen = (props: any) => {
     return (
-        <View style={styles.screen}>
+        <View testID="home-wrapper" style={styles.screen}>
             <Text>
                 Home Component
             </Text>

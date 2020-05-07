@@ -24,7 +24,7 @@ describe('Users screen', () => {
         )
 
         it('should render a view', () => {
-            expect(wrapper.find('.Description-wrapper')).toHaveLength(0)
+            expect(wrapper.find('.home-wrapper')).toHaveLength(0)
         })
     })
 })
